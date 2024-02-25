@@ -3,10 +3,16 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 type InitialState = {
   requestType: RequestTypes;
+  responsePayload: string;
+  isLoadingResponse: boolean;
+  errorMessage: string;
 };
 
 const initialState: InitialState = {
-  requestType: "Post",
+  requestType: "post",
+  responsePayload: "",
+  isLoadingResponse: false,
+  errorMessage: "",
 };
 
 const apiPostSlice = createSlice({
@@ -18,14 +24,56 @@ const apiPostSlice = createSlice({
       action: PayloadAction<InitialState["requestType"]>
     ) => ({
       ...state,
-      // url: action.payload,
       requestType: action.payload,
     }),
     clearRequestType: (state) => ({
       ...state,
+      requestType: "post",
+    }),
+    updateResponsePayload: (
+      state,
+      action: PayloadAction<InitialState["responsePayload"]>
+    ) => ({
+      ...state,
+      responsePayload: action.payload,
+    }),
+    clearResponsePayload: (state) => ({
+      ...state,
+      responsePayload: "",
+    }),
+    updateLoadingProgress: (
+      state,
+      action: PayloadAction<InitialState["isLoadingResponse"]>
+    ) => ({
+      ...state,
+      isLoadingResponse: action.payload,
+    }),
+    clearLoadingProgress: (state) => ({
+      ...state,
+      isLoadingResponse: false,
+    }),
+    updateErrorMessage: (
+      state,
+      action: PayloadAction<InitialState["errorMessage"]>
+    ) => ({
+      ...state,
+      errorMessage: action.payload,
+    }),
+    clearErrorMessage: (state) => ({
+      ...state,
+      errorMessage: "",
     }),
   },
 });
 
-export const { updateRequestType, clearRequestType } = apiPostSlice.actions;
+export const {
+  updateRequestType,
+  clearRequestType,
+  clearResponsePayload,
+  updateResponsePayload,
+  clearLoadingProgress,
+  updateLoadingProgress,
+  clearErrorMessage,
+  updateErrorMessage,
+} = apiPostSlice.actions;
 export const apiPostSliceReducer = apiPostSlice.reducer;

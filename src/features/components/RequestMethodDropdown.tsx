@@ -7,7 +7,7 @@ import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 export const RequestMethodDropdown = () => {
-  const requestTypes = ["Post", "Get", "Patch", "Put"];
+  const requestTypes = ["post", "get", "patch", "put"];
 
   const { requestType } = useAppSelector((state) => state.apiPostSliceReducer);
 
@@ -37,7 +37,7 @@ export const RequestMethodDropdown = () => {
         className="flex gap-4 items-center outline py-2 px-5 rounded-md outline-slate-200 bg-gray-50 cursor-pointer"
         onClick={() => setShowDropdown(true)}
       >
-        <p>{requestType?.toUpperCase()}</p>
+        <p>{requestType.toUpperCase()}</p>
         <IconCaretDownFilled size={16} />
       </div>
       <div className={dropdownClasses}>
@@ -49,7 +49,9 @@ export const RequestMethodDropdown = () => {
               key={request}
               className="py-2 text-left hover:bg-slate-100 px-5 rounded-md cursor-pointer"
               onClick={() => {
-                dispatch(updateRequestType(castedRequest as RequestTypes));
+                dispatch(
+                  updateRequestType(castedRequest.toLowerCase() as RequestTypes)
+                );
                 setShowDropdown(false);
               }}
             >
