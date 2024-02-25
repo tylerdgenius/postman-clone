@@ -1,11 +1,15 @@
 "use client";
 
+import { useAppDispatch, useAppSelector } from "@/state";
+import { updateRequestType } from "@/state/reducers";
+import { RequestTypes } from "@/types";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 export const RequestTypeDropdown = () => {
   const requestTypes = ["Post", "Get", "Patch", "Put"];
-  const [selectedRequestType, setSelectedRequestType] = useState("post");
+
+  const { requestType } = useAppSelector((state) => state.apiPostSliceReducer);
 
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -25,24 +29,27 @@ export const RequestTypeDropdown = () => {
     return window.removeEventListener("click", () => {});
   }, []);
 
+  const dispatch = useAppDispatch();
+
   return (
     <div className="relative" ref={mainRef}>
       <div
-        className="flex gap-4 items-center outline py-2 px-5 rounded-md outline-slate-200 bg-gray-50"
+        className="flex gap-4 items-center outline py-2 px-5 rounded-md outline-slate-200 bg-gray-50 cursor-pointer"
         onClick={() => setShowDropdown(true)}
       >
-        <p>{selectedRequestType.toUpperCase()}</p>
+        <p>{requestType?.toUpperCase()}</p>
         <IconCaretDownFilled size={16} />
       </div>
       <div className={dropdownClasses}>
         {requestTypes.map((request) => {
+          const castedRequest = request as string;
           return (
             <button
               type="button"
               key={request}
               className="py-2 text-left hover:bg-slate-100 px-5 rounded-md cursor-pointer"
               onClick={() => {
-                setSelectedRequestType(request.toUpperCase());
+                dispatch(updateRequestType(castedRequest as RequestTypes));
                 setShowDropdown(false);
               }}
             >
