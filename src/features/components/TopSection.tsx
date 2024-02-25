@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { RequestTypeDropdown } from "./RequestTypeDropdown";
+import { RequestMethodDropdown } from "./RequestMethodDropdown";
 import { Button } from "@/components";
 
 export const TopSection = () => {
@@ -12,7 +12,7 @@ export const TopSection = () => {
   return (
     <div className="w-full flex gap-4 items-center">
       <div className="">
-        <RequestTypeDropdown />
+        <RequestMethodDropdown />
       </div>
       <div className="flex-auto">
         <form onSubmit={onSubmit}>

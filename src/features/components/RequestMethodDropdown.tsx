@@ -6,7 +6,7 @@ import { RequestTypes } from "@/types";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
-export const RequestTypeDropdown = () => {
+export const RequestMethodDropdown = () => {
   const requestTypes = ["Post", "Get", "Patch", "Put"];
 
   const { requestType } = useAppSelector((state) => state.apiPostSliceReducer);
