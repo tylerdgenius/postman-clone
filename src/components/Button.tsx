@@ -14,7 +14,7 @@ export const Button = ({
   ...rest
 }: ButtonProps) => {
   const buttonVariantClasses = {
-    outline: "",
+    outline: "outline px-5 py-2 rounded-md gap-2 hover:shadow-lg",
     filled: "bg-gray-800 px-5 py-2 rounded-md text-white hover:bg-slate-700",
   };
 

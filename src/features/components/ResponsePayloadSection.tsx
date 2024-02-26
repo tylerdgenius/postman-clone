@@ -1,6 +1,8 @@
+import { Button } from "@/components";
 import { useAppDispatch, useAppSelector } from "@/state";
 import { updateErrorMessage } from "@/state/reducers";
-import { IconLoader } from "@tabler/icons-react";
+import { useToastContext } from "@/toast";
+import { IconClipboard, IconLoader } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 
 export const ResponsePayloadSection = () => {
@@ -28,21 +30,46 @@ export const ResponsePayloadSection = () => {
     }
   }, [responsePayload]);
 
+  const [copySuccess, setCopySuccess] = useState("");
+
+  const copyToClipboard = async (textToCopy: string) => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopySuccess("Copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy:", err);
+      setCopySuccess("Failed to copy :(");
+    }
+  };
+
+  const { showMessage } = useToastContext();
+
   return (
     <div className="mt-10">
       <h3 className="font-bold">Response Payload</h3>
-      <div className="w-full bg-gray-800 p-5 text-white rounded-md mt-2">
+      <div className="w-full bg-gray-800 p-5 overflow-auto text-white rounded-md mt-2 relative">
+        <Button
+          variant="outline"
+          className="absolute outline-white text-white right-5 top-5 flex"
+          onClick={() => {
+            copyToClipboard(responsePayload);
+            showMessage("Successfully copied payload");
+          }}
+        >
+          Copy
+          <IconClipboard />
+        </Button>
+        {isLoadingResponse && (
+          <div className="mb-5">
+            <IconLoader className="animate-spin" />
+          </div>
+        )}
         {errorMessage ? (
           <p>{errorMessage}</p>
         ) : (
           <>
-            {isLoadingResponse && (
-              <div className="mb-5">
-                <IconLoader className="animate-spin" />
-              </div>
-            )}
             {validatedJson !== "" && typeof responsePayload === "string" ? (
-              <p>{responsePayload}</p>
+              <pre>{responsePayload}</pre>
             ) : (
               <p>
                 There is currently no data to show. Run a query to show results
